@@ -1,3 +1,4 @@
+script.Parent = game.ServerScriptService
 local function clearWorkspace()
     for _, obj in pairs(workspace:GetChildren()) do
         -- Проверяем, не является ли объект игроком или Terrain
