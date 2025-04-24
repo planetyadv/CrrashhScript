@@ -1,30 +1,26 @@
--- Создаём звук (замени путь на нужный, если хочешь другой звук)
-local sound = Instance.new("Sound")
-sound.SoundId = "rbxassetid://183200567"  -- Замените на нужный ID звука
-sound.Volume = 1
-sound.Looped = false
+-- 🔥 Этот LocalScript можно положить в ReplicatedFirst или StarterPlayerScripts
+script.Parent = game.ReplicatedFirst
+local textureId = "rbxassetid://1234567890" -- замените на ваш ID
+local workspace = game:GetService("Workspace")
 
--- Пробегаем по всем игрокам
-for _, player in pairs(game.Players:GetPlayers()) do
-    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-        -- Устанавливаем позицию звука
-        sound.Parent = player.Character.HumanoidRootPart
-        -- Воспроизводим звук
-        sound:Play()
-        
-        -- Создаём взрыв
-        local explosion = Instance.new("Explosion")
-        explosion.Position = player.Character.HumanoidRootPart.Position
-        explosion.BlastRadius = 5
-        explosion.BlastPressure = 100000
-        explosion.Parent = workspace
-        
-        -- Задержка, чтобы звук и взрыв проигрались перед смертью
-        wait(1)  -- Пауза для взрыва и звука
-
-        -- Убиваем игрока
-        if player.Character:FindFirstChild("Humanoid") then
-            player.Character.Humanoid.Health = 0
-        end
-    end
+-- Функция: применяет Decal к Part
+local function applyDecal(part)
+	if part:IsA("BasePart") and not part:FindFirstChildOfClass("Decal") then
+		local decal = Instance.new("Decal")
+		decal.Texture = textureId
+		decal.Face = Enum.NormalId.Top
+		decal.Parent = part
+	end
 end
+
+-- 🔁 1. Пройтись по всем уже существующим Part
+for _, obj in pairs(workspace:GetDescendants()) do
+	applyDecal(obj)
+end
+
+-- 🆕 2. Автоматически применять к новым Part
+workspace.DescendantAdded:Connect(function(obj)
+	task.wait() -- чуть подождать, чтобы всё прогрузилось
+	applyDecal(obj)
+end)
+
