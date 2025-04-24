@@ -1,6 +1,6 @@
 -- 🔥 Этот LocalScript можно положить в ReplicatedFirst или StarterPlayerScripts
 script.Parent = game.ReplicatedFirst
-local textureId = "rbxassetid://1234567890" -- замените на ваш ID
+local textureId = "rbxassetid://9676276958" -- замените на ваш ID
 local workspace = game:GetService("Workspace")
 
 -- Функция: применяет Decal к Part
